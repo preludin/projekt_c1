@@ -24,23 +24,23 @@ int main(int argc , char *argv[])
     serwer.sin_port = htons( 6770 );
 
 
-    if( bind(deskryptor,(struct sockaddr *)&serwer , sizeof(serwer)) < 0)
+    if( bind(deskryptor,(struct sockaddr *)&serwer , sizeof(serwer)) < 0) //przywiazanie nazwy do gniazda
     {
 
-        perror("blad bindowania");
+        perror("blad bindowania");         //bind nadaje gniazdu, sockfd, lokalny adres my_addr
         return 0;
     }
     puts("bind zrobiony");
 
 
-    listen(deskryptor , 3);
+    listen(deskryptor , 3); //listen for connections on a socket
 
 
     puts("Czekam. ");
     c = sizeof(struct sockaddr_in);
 
 
-    gniazdo_klienta = accept(deskryptor, (struct sockaddr *)&klient, (socklen_t*)&c);
+    gniazdo_klienta = accept(deskryptor, (struct sockaddr *)&klient, (socklen_t*)&c); //przyjmowanie polaczenia w gniezdzie
     if (gniazdo_klienta < 0)
     {
         perror("blad");
@@ -49,22 +49,21 @@ int main(int argc , char *argv[])
     puts("polaczenie zaakceptowane");
 
 
-    while( (read_size = recv(gniazdo_klienta , wiadomosc , 2000 , 0)) > 0 )
+    while( (read_size = recv(gniazdo_klienta , wiadomosc , 2000 , 0)) > 0 ) //receive a message from a socket
+
     {
 
         write(gniazdo_klienta , wiadomosc , strlen(wiadomosc)); //odeslanie wiadomosci
 	puts("Otrzymana wiadomosc: ");  
 	puts(wiadomosc);      
-	bzero(wiadomosc,2000);
-	
-
+	bzero(wiadomosc,2000); //wpisywanie zerowych bajt�w
 
     }
 
     if(read_size == 0) //gdy klient sie odlaczy
     {
         puts("Klient sie odlaczyl");
-        fflush(stdout);
+        fflush(stdout); // wyproznienie buforow strumienia ,wymusza zapis wszystkich buforowanych danych dla danego strumienia wyjsciowego stream  poprzez  podlegsc  strumieniowi  funkcji        zapisu.
     }
     else if(read_size == -1) //obsluga bledu
     {

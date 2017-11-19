@@ -22,7 +22,7 @@ int main(int argc , char *argv[])
     serwer.sin_port = htons( 6770 );
 
 
-    if (connect(sock , (struct sockaddr *)&serwer , sizeof(serwer)) < 0)
+    if (connect(sock , (struct sockaddr *)&serwer , sizeof(serwer)) < 0) //inicjalizacja polaczenia przez gniazdo
     {
         perror("blad polaczenia");
         return 1;
@@ -35,11 +35,9 @@ int main(int argc , char *argv[])
     {
         puts("Wprowadz sobie wiadomosc (nie wiecej niz 2k znakow) : ");
 
-        fgets (message, 2000, stdin);
+        fgets (message, 2000, stdin); //wprowadzenie znakow i lancuchow znakowych
 
-
-
-        if( send(sock , message , strlen(message) , 0) < 0)
+        if( send(sock , message , strlen(message) , 0) < 0)   //send a message on a socket, oblicznie dlugosci lancucha
         {
             puts("blad wysylania");
             return 1;
@@ -53,12 +51,7 @@ int main(int argc , char *argv[])
         }
 
         puts("Odpowiedz :");
-
-
-
         puts(serwer_reply);
-
-
         bzero(serwer_reply,2000);
 
     }
