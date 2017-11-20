@@ -15,7 +15,7 @@ int main(int argc , char *argv[])
     {
         puts("Nie mozna otworzyc gniazda");
     }
-    puts("gniazdo otwarte");
+    puts("Gniazdo jest otwarte");
 
     serwer.sin_addr.s_addr = inet_addr("127.0.0.1");
     serwer.sin_family = AF_INET;
